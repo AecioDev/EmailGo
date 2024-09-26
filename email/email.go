@@ -1,8 +1,10 @@
 package email
 
 import (
+	"bytes"
 	"encoding/base64"
 	"fmt"
+	"html/template"
 	"log"
 	"os"
 
@@ -16,6 +18,14 @@ const (
 	password = "kqzwoyuzafphfoaw"
 )
 
+type EmailData struct {
+	UserName    string
+	ResetLink   string
+	UserEmail   string
+	ImagemSefaz string
+	ImagemCotin string
+}
+
 func EnviaEmail(fromEmail, toEmail, subjectEmail, bodyEmail string) error {
 
 	msg := gomail.NewMessage()
@@ -26,11 +36,41 @@ func EnviaEmail(fromEmail, toEmail, subjectEmail, bodyEmail string) error {
 
 	dialer := gomail.NewDialer(host, port, user, password)
 
-	if err := dialer.DialAndSend(msg); err != nil {
-		return err
-	} else {
-		return nil
+	return dialer.DialAndSend(msg)
+}
+
+func GenerateRecoveryEmailByTemplate(userName, userEmail, resetLink string) string {
+
+	// Converte as imagens para base64
+	sefazLogoBase64 := ImageToBase64("email/img/logo-sefaz-branca.png")
+	cotinLogoBase64 := ImageToBase64("email/img/logo-cotin-branca.png")
+
+	// Carrega o template
+	t, err := template.ParseFiles("email/img/TemplateRecoveryEmail.html")
+	if err != nil {
+		return err.Error()
 	}
+
+	// Prepara os dados
+	data := EmailData{
+		UserName:    userName,
+		UserEmail:   userEmail,
+		ResetLink:   resetLink,
+		ImagemSefaz: sefazLogoBase64,
+		ImagemCotin: cotinLogoBase64,
+	}
+
+	// Executa o template e escreve a saída em um arquivo
+	var buf bytes.Buffer
+	err = t.Execute(&buf, data)
+	if err != nil {
+		return err.Error()
+	}
+
+	htmlContent := buf.String()
+	fmt.Println("E-mail gerado com sucesso!")
+
+	return htmlContent
 }
 
 func GeneratePasswordRecoveryEmail(userName, userEmail, resetLink string) string {

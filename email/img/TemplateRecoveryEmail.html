@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Recuperação de Senha</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				background-color: #f4f4f4;
+				margin: 0;
+				padding: 0;
+				color: #333;
+			}
+			.email-container {
+				max-width: 600px;
+				margin: 0 auto;
+				background-color: #ffffff;
+				padding: 20px;
+				border-radius: 8px;
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			}
+			.header {
+				background-color: #004f9f;
+				padding: 20px;
+				display: flex;
+				align-items: center;
+			}
+			.header img {
+				width: 150px;
+				height: auto;
+			}
+			.content {
+				margin-top: 20px;
+				font-size: 16px;
+				line-height: 1.5;
+			}
+			.content a {
+				color: #0066cc;
+				text-decoration: none;
+			}
+			.prefooter {
+				margin-top: 30px;
+				font-size: 12px;
+				color: #777;
+				text-align: center;
+			}
+			.footer {
+				background-color: #004f9f;
+				padding: 20px;
+				display: flex;
+				justify-content: center;
+			}
+			.footer img {
+				width: 150px;
+				height: auto;
+			}
+			.posfooter {
+				background-color: #0094ea;
+				width: auto;
+				height: 18px;
+				padding: 10px;
+				font-size: 12px;
+				color: #fff;
+				text-align: center;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="email-container">
+			<!-- Cabeçalho com fundo azul e logo -->
+			<div class="header">
+				<img
+					src="{{ .ImagemSefaz }}"
+					alt="logo SEFAZ"
+					style="width: 150px; height: auto"
+				/>
+			</div>
+
+			<!-- Saudação e conteúdo principal -->
+			<div class="content">
+				<h1>Olá, {{ .UserName }}!</h1>
+				<p>
+					Você solicitou a recuperação de sua senha. Para redefinir
+					sua senha, clique no link abaixo:
+				</p>
+				<p><a href="{{ .ResetLink }}">Redefinir senha</a></p>
+				<p>
+					Se o link não funcionar, copie e cole o seguinte endereço no
+					seu navegador:
+				</p>
+				<p>%s</p>
+			</div>
+
+			<!-- Rodapé -->
+			<div class="prefooter">
+				<p>Este e-mail foi enviado para <strong>{{ .UserEmail }}</strong>.</p>
+				<p>
+					Se você não solicitou a recuperação de senha, por favor,
+					desconsidere este e-mail.
+				</p>
+			</div>
+			<!-- Rodapé com fundo azul e logo -->
+			<div class="footer">
+				<img
+					src=""
+					alt="logo COTIN"
+					style="width: 150px; height: auto"
+				/>
+			</div>
+			<div class="posfooter">
+				<p>2024 COTIN - Todos os direitos reservados</p>
+			</div>
+		</div>
+	</body>
+</html>
